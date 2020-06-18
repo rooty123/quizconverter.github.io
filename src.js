@@ -30,7 +30,7 @@ async function convert() {
 				],
 				[
 					"email",
-					from.results.view === "email" ? "required" : false
+					from.results !== undefined ? from.results.view === "email" ? "required" : false : false
 				],
 				[
 					"whatsapp",
@@ -105,13 +105,13 @@ async function convert() {
 			"results_formula": "",
 			"results_type": "fixed",
 			"show_expert": from.info.assistant.name !== "",
-			"show_results": from.results.items !== undefined ? from.results.items.length > 0 : false,
+			"show_results": from.results !== undefined ? from.results.items !== undefined ? from.results.items.length > 0 : false : false,
 			"side_image": "",
 			"text_color": from.info.design.colors.buttonTextColor
 		},
 		"notifications": {}
 	};
-	if (from.results.items !== undefined) {
+	if (from.results !== undefined && from.results.items !== undefined) {
 		for (let i = 0; i < from.results.items.length; i++) {
 			to.jsonData.results.push({
 				"result_image": from.results.items[i].image !== undefined ? from.results.items[i].image.url : "",
@@ -129,7 +129,7 @@ async function convert() {
 				"answers": [],
 				"image_placement": true,
 				"question_kind": "option",
-				"question_options_list": true,
+				// "question_options_list": true,
 				"question_title": from.questions[i].title
 			});
 			for (let a = 0; a < from.questions[i].answers.length; a++) {
@@ -211,7 +211,7 @@ async function convert() {
 				"answers": [],
 				"image_placement": true,
 				"question_kind": "option",
-				"question_options_list": true,
+				// "question_options_list": true,
 				"question_title": from.questions[i].title
 			});
 			for (let a = 0; a < from.questions[i].answers.length; a++) {

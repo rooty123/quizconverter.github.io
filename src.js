@@ -99,26 +99,27 @@ async function convert() {
 			"quiz_title": from.info.startPage.title,
 			"request_contacts": true,
 			"request_contacts_button": "Последний шаг",
-			"request_contacts_title":"Оставьте ваши контакты",
+			"request_contacts_title": "Оставьте ваши контакты",
 			"results": [],
 			"results_before_contacts": false,
 			"results_formula": "",
 			"results_type": "fixed",
 			"show_expert": from.info.assistant.name !== "",
-			"show_results": from.results.items.length > 0,
+			"show_results": from.results.items !== undefined ? from.results.items.length > 0 : false,
 			"side_image": "",
 			"text_color": from.info.design.colors.buttonTextColor
 		},
 		"notifications": {}
 	};
-	for(let i = 0; i < from.results.items.length; i++)
-	{
-		to.jsonData.results.push({
+	if (from.results.items !== undefined) {
+		for (let i = 0; i < from.results.items.length; i++) {
+			to.jsonData.results.push({
 				"result_image": from.results.items[i].image !== undefined ? from.results.items[i].image.url : "",
 				"result_title": from.results.items[i].title,
 				"result_description": from.results.items[i].text,
 				"result_kind": "text",
 			})
+		}
 	}
 
 	for (let i = 0; i < from.questions.length; i++) {
@@ -204,8 +205,7 @@ async function convert() {
 				"question_kind": "file",
 				"question_title": from.questions[i].title
 			});
-		}
-		else if (from.questions[i].type === "select") {
+		} else if (from.questions[i].type === "select") {
 			to.jsonData.questions.push({
 				"allow_multiple": false,
 				"answers": [],
